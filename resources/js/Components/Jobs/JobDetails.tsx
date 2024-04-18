@@ -7,6 +7,7 @@ import { Header } from '../Common/Header';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import { GetJobDetails } from '../../Services/GetJobDetails';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,6 +20,18 @@ const Item = styled(Paper)(({ theme }) => ({
 export const JobDetails = () => {
   const title = 'Senior Software Engineer'
   const description = 'This is job description'
+  const queryParams = new URLSearchParams(window.location.search)
+  console.log(`Test! ${queryParams}`)
+
+  React.useEffect(() => {
+    GetJobDetails(1)
+      .then((response) => {
+        console.log(response)
+      }).catch((e) => {
+        console.log(e)
+      })
+  }, [])
+
   return (
     <div>
       <Header></Header>

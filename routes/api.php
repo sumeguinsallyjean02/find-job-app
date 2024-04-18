@@ -5,5 +5,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('/jobs')->group(function () {
-    Route::post('', [JobController::class, 'store']);
+    Route::post('/create', [JobController::class, 'store']);
+    Route::post('/detail', [JobController::class, 'show']);
 });

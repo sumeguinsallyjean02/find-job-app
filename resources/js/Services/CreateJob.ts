@@ -6,7 +6,7 @@ export const CreateJobs = async (
     employmentType: string[],
     description: string
 ): Promise<void> => {
-    return axios.post('/api/jobs', {
+    return axios.post('/api/jobs/create', {
         title,
         location,
         employment_type: employmentType,

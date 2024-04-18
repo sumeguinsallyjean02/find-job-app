@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Header } from "../Common/Header"
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -12,6 +12,7 @@ import { EmploymentType } from "./EmploymentType";
 import { Location } from "./Location";
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import JobDescription from "./Description";
+import { CreateJobs } from "../../Services/CreateJob";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -22,6 +23,34 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
 
 export const AddJob = () => {
+    const [title, setTitle] = useState('')
+    const [location, setLocation] = useState('')
+    const [description, setDescription] = useState('')
+    const [employmentType, setEmploymentType] = useState([])
+
+    const onEmploymentSelect = (
+        values : any
+    ) => {
+        setEmploymentType(values)
+    }
+
+    const onJobDescChange = (
+        value: string
+    ) => {
+        setDescription(value)
+    }
+
+    const onJobSubmit = () => {
+        CreateJobs(
+            title,
+            location,
+            employmentType,
+            description
+        ).then((response) => {
+            console.log('Successfully Created Job!')
+        }).catch((e) => console.error(e) )
+    }
+
     return (
         <div>
             <Header></Header>
@@ -44,6 +73,9 @@ export const AddJob = () => {
                                 name="title"
                                 autoComplete="title"
                                 autoFocus
+                                onChange={(event) => {
+                                    setTitle(event.target.value)
+                                }}
                                 />
                             <TextField
                                 margin="normal"
@@ -53,14 +85,17 @@ export const AddJob = () => {
                                 name="location"
                                 autoComplete="location"
                                 autoFocus
+                                onChange={(event) => {
+                                    setLocation(event.target.value)
+                                }}
                                 />
-                            <EmploymentType></EmploymentType>
-                            <JobDescription></JobDescription>
+                            <EmploymentType onSelect={onEmploymentSelect}></EmploymentType>
+                            <JobDescription onChange={onJobDescChange} value={description}></JobDescription>
                             <div className="buttons" style={{
                                 marginTop: '15px'
                             }}>
                                 <Stack spacing={2} direction="column">
-                                    <Button variant="contained" color='success'>Submit</Button>
+                                    <Button variant="contained" color='success' onClick={onJobSubmit}>Submit</Button>
                                     <Button variant="contained" color='info'>Clear</Button>
                                 </Stack>
                             </div>

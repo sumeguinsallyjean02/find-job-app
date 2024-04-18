@@ -32,7 +32,9 @@ function getStyles(name: string, employmentType: string[], theme: Theme) {
   };
 }
 
-export const EmploymentType = () => {
+export const EmploymentType = (
+  props : any
+) => {
   const theme = useTheme();
   const [employmentType, setEmploymentType] = React.useState<string[]>([]);
 
@@ -44,10 +46,11 @@ export const EmploymentType = () => {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    props.onSelect(typeof value === 'string' ? value.split(',') : value)
   };
 
   return (
-    <FormControl sx={{ width: 1400, marginTop: '15px' }}>
+    <FormControl sx={{ width: 900, marginTop: '15px' }}>
     <InputLabel id="e-type">Employment Type</InputLabel>
     <Select
       labelId="e-type-label"

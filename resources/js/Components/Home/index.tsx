@@ -15,6 +15,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Header } from '../Common/Header';
 import { Body } from '../Body';
+import { JobLists } from '../Jobs/JobLists';
 
 const drawerWidth = 240;
 
@@ -65,7 +66,7 @@ export const Home = () => {
         sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
       >
         <Toolbar />
-        <Body></Body>
+        <JobLists></JobLists>
       </Box>
     </Box>
   );

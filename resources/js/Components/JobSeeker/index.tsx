@@ -3,16 +3,16 @@ import { Header } from "../Header";
 import { Menu } from "../Navigation";
 
 
-export const Admin = () => {
+export const JobSeeker = (
 
+) => {
     const menu : String[] = [
         'Jobs'
     ]
+
     return (
         <div>
-            <Menu
-                menu={menu}
-            ></Menu>
+            <Menu menu={menu}></Menu>
         </div>
     )
 }

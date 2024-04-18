@@ -16,7 +16,7 @@ export default function Main() {
                 <Routes>
                     <Route path="/home" Component={Home}></Route>
                     <Route path="/job/create" Component={AddJob}></Route>
-                    <Route path="job/{id}/confirm" Component={JobDetails}></Route>
+                    <Route path="job/:id/confirm" Component={JobDetails}></Route>
                     <Route path="/login" Component={Login}></Route>
                 </Routes>
             </div>

@@ -15,7 +15,7 @@ class JobPendingConfirmationNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(Job $job)
+    public function __construct(public Job $job)
     {
         //
     }
@@ -39,7 +39,7 @@ class JobPendingConfirmationNotification extends Notification
                     ->line('A new job has been created!')
                     ->line('Job Title: '. $this->job->title)
                     ->line('Job Description: '. $this->job->description)
-                    ->action('View Job', url('/#/job/'.$this->job->id.'/confirmation'));
+                    ->action('View Job', url('/#/job/'.$this->job->id.'/confirm'));
     }
 
     /**

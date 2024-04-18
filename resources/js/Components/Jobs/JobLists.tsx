@@ -6,6 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Button } from "@mui/material";
 
 
 interface IJobDescription {
@@ -71,7 +72,7 @@ export const JobLists = () => {
                 aria-controls={`panel${index + 1}-content`}
                 id={`panel${index + 1}-header`}
               >
-                <Typography component={'h1'} variant="h4">{item.name}</Typography>
+                <Typography component={'h1'} variant="h5">{item.name}</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 { (item.jobDescriptions.jobDescription).map((item, index) =>(
@@ -80,6 +81,15 @@ export const JobLists = () => {
                         <div dangerouslySetInnerHTML={{__html: item.value}}/>
                     </Typography>
                 ))}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="success"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  View Job Details
+                </Button>
               </AccordionDetails>
             </Accordion>
           ))}

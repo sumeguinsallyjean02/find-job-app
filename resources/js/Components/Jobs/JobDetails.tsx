@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { GetJobDetails } from '../../Services/GetJobDetails';
+import { useParams } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,15 +19,18 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const JobDetails = () => {
-  const title = 'Senior Software Engineer'
-  const description = 'This is job description'
-  const queryParams = new URLSearchParams(window.location.search)
-  console.log(`Test! ${queryParams}`)
+  const params = useParams()
+  const jobId : number = Number(params.id)
+
+  const [jobTitle, setTitle] = React.useState('')
+  const [jobDescription, setJobDescription] = React.useState('')
 
   React.useEffect(() => {
-    GetJobDetails(1)
-      .then((response) => {
-        console.log(response)
+    GetJobDetails(jobId)
+      .then((response : any)  => {
+        const { title, description } = response.data
+        setTitle(title)
+        setJobDescription(description)
       }).catch((e) => {
         console.log(e)
       })
@@ -45,9 +49,9 @@ export const JobDetails = () => {
                 <Typography component="h1" variant="h2">
                   <div className='actual-title' style={{
                     position: 'absolute',
-                    marginTop: '58px'
+                    marginTop: '10px'
                   }}>
-                  {title}
+                  {jobTitle}
                   </div>
                 </Typography>
               </div>
@@ -63,31 +67,7 @@ export const JobDetails = () => {
             </Typography>
             <div className='approval-job-desc'>
               <Typography paragraph>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-                imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-                Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-                Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-                nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-                leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-                feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-                consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-                sapien faucibus et molestie ac.
-              </Typography>
-              <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-                eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-                neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-                tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-                sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-                tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-                gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-                et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-                tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-                eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-                posuere sollicitudin aliquam ultrices sagittis orci a.
+                {jobDescription}
               </Typography>
             </div>
             </Item>

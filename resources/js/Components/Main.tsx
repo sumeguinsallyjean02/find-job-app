@@ -6,6 +6,7 @@ import {
     HashRouter as Router
 } from "react-router-dom";
 import { Login } from "./Login";
+import { Admin } from "./Admin";
 
 export default function Main() {
     return (
@@ -29,12 +30,7 @@ export default function Main() {
                 </nav> */}
 
                 <Routes>
-                    <Route path="/job-seeker">
-                        {/* <About /> */}
-                    </Route>
-                    <Route path="/job-employeer">
-                        {/* <Users /> */}
-                    </Route>
+                    <Route path="/admin" Component={Admin}></Route>
                     <Route path="/login" Component={Login}></Route>
                 </Routes>
             </div>

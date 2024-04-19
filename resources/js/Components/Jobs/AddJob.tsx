@@ -13,6 +13,7 @@ import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import JobDescription from "./Description";
 import { CreateJobs } from "../../Services/CreateJob";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -51,7 +52,11 @@ export const AddJob = () => {
             }, token
         ).then((response) => {
             console.log('Successfully Created Job!')
-        }).catch((e) => console.error(e) )
+
+        }).catch((e) => {
+            console.error(e) 
+            
+        })
     }
 
     return (

@@ -14,8 +14,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { LoginUser } from "../../Services/LoginUser";
 import {useDispatch} from 'react-redux'
-import { setUserToken } from "../../Redux/actions/users";
+import { setUser, setUserToken } from "../../Redux/actions/users";
 import { useNavigate } from "react-router-dom";
+import { GetMe } from "../../Services/GetMe";
 
 
 interface ILoginParams {
@@ -40,6 +41,14 @@ export const Login = (
       ).then((response) => {
         const token = response.data.token
         dispatch(setUserToken(token))
+        GetMe(token).then((response : any) => {
+          const {email, type} = response.data
+          const user = {
+            email,
+            type
+          }
+          dispatch(setUser(user))
+        }).catch((e) => console.log(e))
         navigate('/home')
       }).catch((e) => console.log(e)) 
     }

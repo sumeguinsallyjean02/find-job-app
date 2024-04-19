@@ -12,6 +12,7 @@ Route::prefix('/jobs')->middleware('auth:sanctum')->group(function () {
     Route::post('/detail', [JobController::class, 'getJobById']);
 });
 
-Route::prefix('/users')->group(function () {
-    Route::post('/login', [UserController::class,'login']);
+Route::prefix('/users')->middleware('auth:sanctum')->group(function () {
+    Route::post('/login', [UserController::class,'login'])->withoutMiddleware('auth:sanctum');
+    Route::get('/me', [UserController::class,'me']);
 });

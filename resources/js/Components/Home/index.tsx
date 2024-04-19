@@ -17,6 +17,10 @@ import { Header } from '../Common/Header';
 import { Body } from '../Body';
 import { JobLists } from '../Jobs/JobLists';
 import { AddJob } from '../Jobs/AddJob';
+import { GetMe } from '../../Services/GetMe';
+import { useDispatch, useSelector } from 'react-redux';
+import { IUser } from '../../Redux/types/users';
+import { setUser } from '../../Redux/actions/users';
 
 const drawerWidth = 240;
 
@@ -25,8 +29,28 @@ interface IMenuProps {
 }
 
 export const Home = () => {
+  const dispatch = useDispatch()
+
   const [isJobClicked, setIsJobsClicked] = React.useState(true)
   const [isCreateJobClicked, setIsCreateJobClicked] = React.useState(false)
+  const users = useSelector((state : any) => state.users)
+  const token = users.token || ''
+  const userType = users.user?.type || '' 
+
+
+  React.useEffect(() => {
+    if(token !== null) {
+      GetMe(token).then((response : any) => {
+        const {email, type} = response.data
+        const user = {
+          email,
+          type
+        }
+        dispatch(setUser(user))
+      }).catch((e) => console.log(e))
+    }
+  }, [token])
+
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -61,15 +85,17 @@ export const Home = () => {
                   <ListItemText primary={'Jobs'} />
                 </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
-                <ListItemButton onClick={() => {
-                  setIsCreateJobClicked(true)
-                  setIsJobsClicked(false)
-
-                }}>
-                <ListItemText primary={'Create Jobs'} />
-                </ListItemButton>
-            </ListItem>
+            { !['moderator', 'seeker'].includes(userType) &&
+                          <ListItem disablePadding>
+                          <ListItemButton onClick={() => {
+                            setIsCreateJobClicked(true)
+                            setIsJobsClicked(false)
+          
+                          }}>
+                          <ListItemText primary={'Create Jobs'} />
+                          </ListItemButton>
+                      </ListItem>
+            }
         </List>
         <Divider />
       </Drawer>

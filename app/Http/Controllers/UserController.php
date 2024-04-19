@@ -30,4 +30,8 @@ class UserController
         ]);
 
     }
+
+    public function me(Request $request) {
+        return response()->json($request->user()->toArray());
+    }
 }

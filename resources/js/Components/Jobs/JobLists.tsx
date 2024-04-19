@@ -51,8 +51,6 @@ interface IInternalJob {
     updated_at: string
 }
 
-
-
 export const JobLists = () => {
     const [externalJobs, setExternalJobs] = useState<IExternalJobs[]>([])
     const [internalJobs, setInternalJobs] = useState<IExternalJobs[]>([])

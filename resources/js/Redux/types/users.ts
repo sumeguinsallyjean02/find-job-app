@@ -1,13 +1,14 @@
+export const SET_USER_TOKEN = 'SET_USER_TOKEN'
 
-const SET_USER_TYPE = 'SEY_USER_TYPEÍ'
-
-type userType = 'Seeker' | 'Employeer' | 'Moderator'
-
-export interface ISetUserType {
-    payload : userType
+export interface ISetUserToken {
+    type: typeof SET_USER_TOKEN
+    payload: any
 }
 
 export interface IUser {
-    userType: userType
+    password: string
     email: string
+    type: string
 }
+
+export type TUserAction = ISetUserToken

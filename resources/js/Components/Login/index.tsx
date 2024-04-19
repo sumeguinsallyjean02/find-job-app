@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -12,10 +12,35 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { LoginUser } from "../../Services/LoginUser";
+import {useDispatch} from 'react-redux'
+import { setUserToken } from "../../Redux/actions/users";
+
+
+interface ILoginParams {
+  email: string, 
+  password: string
+}
 
 export const Login = (
     props : any
 ) => {
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const onLogin = (
+      {email, password} : ILoginParams
+    ) => {
+      LoginUser(
+        email, password
+      ).then((response) => {
+        const token = response.data.token
+        dispatch(setUserToken(token))
+        
+      }).catch((e) => console.log(e)) 
+    }
+
 
     const defaultTheme = createTheme()
     return (
@@ -46,6 +71,9 @@ export const Login = (
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                  }}
                 />
                 <TextField
                   margin="normal"
@@ -56,12 +84,20 @@ export const Login = (
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  onChange={(e) => {
+                    setPassword(e.target.value)
+                  }}
                 />
                 <Button
-                  type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={() => {
+                    onLogin({
+                      email, 
+                      password
+                    })
+                  }}
                 >
                   Sign In
                 </Button>

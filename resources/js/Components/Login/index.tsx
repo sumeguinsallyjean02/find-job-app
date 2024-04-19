@@ -15,6 +15,7 @@ import Container from '@mui/material/Container';
 import { LoginUser } from "../../Services/LoginUser";
 import {useDispatch} from 'react-redux'
 import { setUserToken } from "../../Redux/actions/users";
+import { useNavigate } from "react-router-dom";
 
 
 interface ILoginParams {
@@ -26,6 +27,8 @@ export const Login = (
     props : any
 ) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -37,7 +40,7 @@ export const Login = (
       ).then((response) => {
         const token = response.data.token
         dispatch(setUserToken(token))
-        
+        navigate('/home')
       }).catch((e) => console.log(e)) 
     }
 

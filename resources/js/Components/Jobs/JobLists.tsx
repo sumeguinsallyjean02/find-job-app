@@ -11,6 +11,7 @@ import { GetAllJobs} from "../../Services/GetAllJobs";
 import JobDescription from "./Description";
 import { Link } from "react-router-dom";
 import TextField from '@mui/material/TextField';
+import { useSelector } from "react-redux";
 
 
 interface IJobDescription {
@@ -57,6 +58,8 @@ export const JobLists = () => {
     const [internalJobs, setInternalJobs] = useState<IExternalJobs[]>([])
     const [selectedJobId, setSelectedJobId] = useState(0)
     const [searchValue, setSearchValue] = useState('')
+    const token = useSelector((state : any) => state.users.token )
+    console.log(token)
 
     const getExternalJobs = () => {
         fetch('https://mrge-group-gmbh.jobs.personio.de/xml')
@@ -81,8 +84,8 @@ export const JobLists = () => {
         })
     }
 
-    const getInternalJobs = () => {
-        GetAllJobs().then((response : any) => {
+    const getInternalJobs = (authToken) => {
+        GetAllJobs(authToken).then((response : any) => {
             const approvedJobs : any = response.data
             const modifiedJobs = approvedJobs.map((
                 approvedJob : IInternalJob
@@ -130,8 +133,8 @@ export const JobLists = () => {
     }, [])
 
     useEffect(() => {
-        getInternalJobs()
-    }, [])
+        getInternalJobs(token)
+    }, [token])
 
     return (
         <div>

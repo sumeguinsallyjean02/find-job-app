@@ -13,6 +13,7 @@ import { Location } from "./Location";
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import JobDescription from "./Description";
 import { CreateJobs } from "../../Services/CreateJob";
+import { useSelector } from "react-redux";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -27,6 +28,7 @@ export const AddJob = () => {
     const [location, setLocation] = useState('')
     const [description, setDescription] = useState('')
     const [employmentType, setEmploymentType] = useState([])
+    const token = useSelector((state : any) => state.users.token  )
 
     const onEmploymentSelect = (
         values : any
@@ -42,10 +44,12 @@ export const AddJob = () => {
 
     const onJobSubmit = () => {
         CreateJobs(
-            title,
-            location,
-            employmentType,
-            description
+            {
+                title,
+                location,
+                employmentType,
+                description
+            }, token
         ).then((response) => {
             console.log('Successfully Created Job!')
         }).catch((e) => console.error(e) )

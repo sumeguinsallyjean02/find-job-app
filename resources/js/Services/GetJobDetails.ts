@@ -1,7 +1,12 @@
 import axios from 'axios'
 
 export const GetJobDetails = async (
-    id: number
+    id: number,
+    token: string
 ): Promise<void> => {
-    return axios.post('/api/jobs/detail', {id})
+    return axios.post('/api/jobs/detail', {id}, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
 }

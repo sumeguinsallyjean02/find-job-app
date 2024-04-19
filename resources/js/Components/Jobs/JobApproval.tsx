@@ -9,6 +9,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { GetJobDetails } from '../../Services/GetJobDetails';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -24,9 +25,10 @@ export const JobApproval = () => {
 
   const [jobTitle, setTitle] = React.useState('')
   const [jobDescription, setJobDescription] = React.useState('')
+  const token = useSelector((state : any) => state.users.token )
 
   React.useEffect(() => {
-    GetJobDetails(jobId)
+    GetJobDetails(jobId, token)
       .then((response : any)  => {
         const { title, description } = response.data
         setTitle(title)
@@ -34,7 +36,7 @@ export const JobApproval = () => {
       }).catch((e) => {
         console.log(e)
       })
-  }, [])
+  }, [token])
 
   return (
     <div>

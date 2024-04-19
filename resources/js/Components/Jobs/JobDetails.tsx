@@ -12,6 +12,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { XMLValidator, XMLParser } from 'fast-xml-parser';
 import { IExternalJobs, IInternalJob } from '../Types';
+import { useSelector } from 'react-redux';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -31,6 +32,7 @@ export const JobDetails = (
     const jobType = searchParams.get('type')
     const jobId : number = Number(params.id)
     const [foundJob, setFoundJob] = useState<IExternalJobs>()
+    const token = useSelector((state : any) => state.users.token)
 
 
 
@@ -58,7 +60,10 @@ export const JobDetails = (
     }
 
     const getInternalJob = () => {
-        GetJobDetails(jobId).then((response : any) => {
+        GetJobDetails(
+          jobId,
+          token
+        ).then((response : any) => {
           const formattedDescription = {
             jobDescription: [
                 {
@@ -104,7 +109,10 @@ export const JobDetails = (
         }
         console.log(foundExternalJob)
       } else if(jobType === 'internal') {
-        GetJobDetails(jobId).then((x : any) => {
+        GetJobDetails(
+          jobId, 
+          token
+        ).then((x : any) => {
           const response = x.data
           const formattedDescription = {
             jobDescription: [
@@ -143,7 +151,8 @@ export const JobDetails = (
       internalJob, 
       externalJobs, 
       jobId, 
-      jobType
+      jobType, 
+      token
     ])
 
   return (

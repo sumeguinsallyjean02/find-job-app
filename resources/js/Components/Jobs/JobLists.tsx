@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 import { GetAllJobs} from "../../Services/GetAllJobs";
 import JobDescription from "./Description";
 import { Link } from "react-router-dom";
+import TextField from '@mui/material/TextField';
 
 
 interface IJobDescription {
@@ -55,7 +56,7 @@ export const JobLists = () => {
     const [externalJobs, setExternalJobs] = useState<IExternalJobs[]>([])
     const [internalJobs, setInternalJobs] = useState<IExternalJobs[]>([])
     const [selectedJobId, setSelectedJobId] = useState(0)
-
+    const [searchValue, setSearchValue] = useState<>('')
 
     const getExternalJobs = () => {
         fetch('https://mrge-group-gmbh.jobs.personio.de/xml')
@@ -115,7 +116,6 @@ export const JobLists = () => {
                 }
             })
             setInternalJobs(modifiedJobs)
-
         }).catch((e) => {
             console.log(e)
         })
@@ -131,13 +131,36 @@ export const JobLists = () => {
 
     return (
         <div>
+            <div className="jobSearch">
+                <TextField 
+                    id = "outlined-basic" 
+                    label="Search by Job Name" 
+                    variant="outlined" 
+                    fullWidth={true}
+                    InputProps={{
+                        sx: {
+                            borderRadius: 3
+                        }
+                    }}
+                    onChange={(e) => {
+                        const searchValue = e.target.value
+                        setSearchValue(searchValue)
+                    } }
+                />
+            </div>
           {[
             ...externalJobs,
             ...internalJobs
-          ].map((item, index) => (
+          ].filter((job : IExternalJobs) => {
+            if(searchValue === '' || !searchValue) {
+                return true
+            }
+            const regex = new RegExp(searchValue, 'gi')
+            return job.name.match(regex)    
+        }).map((item, index) => (
             <Accordion key={index}>
               <AccordionSummary
-                expandIcon={<ArrowDownwardIcon />} // You can conditionally render ArrowDownwardIcon or ArrowDropDownIcon based on your logic
+                expandIcon={<ArrowDownwardIcon />}
                 aria-controls={`panel${index + 1}-content`}
                 id={`panel${index + 1}-header`}
               >

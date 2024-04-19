@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->json('employment_type')->nullable();
             $table->text('description')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

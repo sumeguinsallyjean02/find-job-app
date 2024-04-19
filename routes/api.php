@@ -10,6 +10,8 @@ Route::prefix('/jobs')->middleware('auth:sanctum')->group(function () {
     Route::get('', [JobController::class, 'show']);
     Route::post('/create', [JobController::class, 'store']);
     Route::post('/detail', [JobController::class, 'getJobById']);
+    Route::post('/confirm', [JobController::class, 'updateJobStatus']);
+    
 });
 
 Route::prefix('/users')->middleware('auth:sanctum')->group(function () {

@@ -15,7 +15,8 @@ class Job extends Model
         'title',
         'location',
         'employment_type',
-        'description'
+        'description',
+        'status'
     ];
 
     protected $casts = [

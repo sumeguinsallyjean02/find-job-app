@@ -8,8 +8,9 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { GetJobDetails } from '../../Services/GetJobDetails';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ApproveJob } from '../../Services/ApproveJob';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,11 +22,27 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export const JobApproval = () => {
   const params = useParams()
+  const navigate = useNavigate();
   const jobId : number = Number(params.id)
 
   const [jobTitle, setTitle] = React.useState('')
   const [jobDescription, setJobDescription] = React.useState('')
   const token = useSelector((state : any) => state.users.token ) || localStorage.getItem('token')
+
+  const approveJob = (
+    status : string
+  ) => {
+
+    ApproveJob(
+      jobId, 
+      status,
+      token
+    )
+      .then((response : any) => {
+        console.log('Successful!')
+        navigate('/home')
+      }).catch((e) =>  console.log(e))
+  }
 
   React.useEffect(() => {
     GetJobDetails(jobId, token)
@@ -77,7 +94,13 @@ export const JobApproval = () => {
           <Grid item sm={4}>
             <Item>
             <Stack spacing={2} direction="column">
-              <Button variant="contained" color='success'>Approved</Button>
+              <Button 
+                variant="contained" 
+                color='success'
+                onClick={() => {
+                  approveJob('approved')
+                }}
+                >Approved</Button>
               <Button variant="contained" color='error'>Mark as Spam</Button>
             </Stack>
             </Item>

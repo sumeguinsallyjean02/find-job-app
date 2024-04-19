@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use App\Http\Requests\UpdateJobStatusRequest;
 use App\Models\Job;
+use Illuminate\Support\Facades\Request;
 
 class JobController extends Controller
 {
@@ -37,7 +39,7 @@ class JobController extends Controller
      */
     public function show()
     {
-        return Job::all();
+        return Job::where('status', 'approved')->get();
     }
 
     public function getJobById(StoreJobRequest $request) {
@@ -58,6 +60,14 @@ class JobController extends Controller
     public function update(UpdateJobRequest $request, Job $job)
     {
         //
+    }
+
+    public function updateJobStatus(UpdateJobStatusRequest $request) 
+    {
+        $job = Job::find($request->get('id'));
+        $job->status = $request->get('status');
+        $input = $request->all();
+        $job->update($input);
     }
 
     /**

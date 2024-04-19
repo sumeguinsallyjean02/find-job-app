@@ -34,7 +34,7 @@ export const Home = () => {
   const [isJobClicked, setIsJobsClicked] = React.useState(true)
   const [isCreateJobClicked, setIsCreateJobClicked] = React.useState(false)
   const users = useSelector((state : any) => state.users)
-  const token = users.token || ''
+  const token = users.token || localStorage.getItem('token')
   const userType = users.user?.type || '' 
 
 

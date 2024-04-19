@@ -21,5 +21,12 @@ class DatabaseSeeder extends Seeder
             'type' => 'moderator',
             'password' => bcrypt('test'),
         ]);
+
+        User::factory()->create([
+            'name' => 'Employeer A',
+            'email' => 'employerA@employer.com',
+            'type' => 'employeer',
+            'password' => bcrypt('test'),
+        ]);
     }
 }

@@ -56,7 +56,7 @@ export const JobLists = () => {
     const [internalJobs, setInternalJobs] = useState<IExternalJobs[]>([])
     const [selectedJobId, setSelectedJobId] = useState(0)
     const [searchValue, setSearchValue] = useState('')
-    const token = useSelector((state : any) => state.users.token )
+    const token = useSelector((state : any) => state.users.token ) || localStorage.getItem('token')
 
     const getExternalJobs = () => {
         fetch('https://mrge-group-gmbh.jobs.personio.de/xml')

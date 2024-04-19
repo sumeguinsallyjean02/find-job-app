@@ -40,6 +40,7 @@ export const Login = (
         email, password
       ).then((response) => {
         const token = response.data.token
+        localStorage.setItem('token', token)
         dispatch(setUserToken(token))
         GetMe(token).then((response : any) => {
           const {email, type} = response.data
@@ -47,8 +48,7 @@ export const Login = (
             email,
             type
           }
-          dispatch(setUser(user))
-        }).catch((e) => console.log(e))
+          dispatch(setUser(user))})
         navigate('/home')
       }).catch((e) => console.log(e)) 
     }

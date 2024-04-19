@@ -32,9 +32,7 @@ export const JobDetails = (
     const jobType = searchParams.get('type')
     const jobId : number = Number(params.id)
     const [foundJob, setFoundJob] = useState<IExternalJobs>()
-    const token = useSelector((state : any) => state.users.token)
-
-
+    const token = useSelector((state : any) => state.users.token) || localStorage.getItem('token')
 
     const getExternalJobs = () => {
         fetch('https://mrge-group-gmbh.jobs.personio.de/xml')
@@ -56,44 +54,6 @@ export const JobDetails = (
             setExternalJobs(jobs)
         }).catch((err) => {
             console.log(err)
-        })
-    }
-
-    const getInternalJob = () => {
-        GetJobDetails(
-          jobId,
-          token
-        ).then((response : any) => {
-          const formattedDescription = {
-            jobDescription: [
-                {
-                    name: '',
-                    value: response.description
-                }
-            ]
-        }
-        const modifiedJob : IExternalJobs = {
-            id : response.id,
-            name: response.title,
-            jobDescriptions: formattedDescription,
-            employmentType: response.employment_type.join(','),
-            department: '',
-            keywords: '',
-            occupation: '',
-            occupationCategory : '',
-            office : '',
-            recruitingCategory : '',
-            schedule : '',
-            seniority : '',
-            subcompany : '',
-            yearsOfExperience : '',
-            jobType: 'internal'
-
-        }
-            setInternalJob(modifiedJob)
-
-        }).catch((e) => {
-            console.log(e)
         })
     }
 

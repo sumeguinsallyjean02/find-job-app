@@ -25,7 +25,7 @@ export const JobApproval = () => {
 
   const [jobTitle, setTitle] = React.useState('')
   const [jobDescription, setJobDescription] = React.useState('')
-  const token = useSelector((state : any) => state.users.token )
+  const token = useSelector((state : any) => state.users.token ) || localStorage.getItem('token')
 
   React.useEffect(() => {
     GetJobDetails(jobId, token)

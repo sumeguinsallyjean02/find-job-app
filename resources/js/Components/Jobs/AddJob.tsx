@@ -28,7 +28,7 @@ export const AddJob = () => {
     const [location, setLocation] = useState('')
     const [description, setDescription] = useState('')
     const [employmentType, setEmploymentType] = useState([])
-    const token = useSelector((state : any) => state.users.token  )
+    const token = useSelector((state : any) => state.users.token  ) || localStorage.getItem('token')
 
     const onEmploymentSelect = (
         values : any

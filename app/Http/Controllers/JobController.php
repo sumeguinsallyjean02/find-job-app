@@ -35,8 +35,12 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(StoreJobRequest $request)
+    public function show()
     {
+        return Job::all();
+    }
+
+    public function getJobById(StoreJobRequest $request) {
         return Job::find($request->get('id'));
     }
 

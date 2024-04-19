@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Button } from "@mui/material";
+import { GetAllJobs, GetJobDetails, Jobs } from "../../Services/GetAllJobs";
+import JobDescription from "./Description";
 
 
 interface IJobDescription {
@@ -35,8 +37,22 @@ interface IExternalJobs {
 
 }
 
+interface IInternalJob {
+    created_at: string
+    description: string
+    employment_type: string[]
+    id: number
+    location: string
+    title: string
+    updated_at: string
+}
+
+
+
 export const JobLists = () => {
     const [externalJobs, setExternalJobs] = useState<IExternalJobs[]>([])
+    const [internalJobs, setInternalJobs] = useState<IExternalJobs[]>([])
+
 
     const getExternalJobs = () => {
         fetch('https://mrge-group-gmbh.jobs.personio.de/xml')
@@ -51,7 +67,6 @@ export const JobLists = () => {
                     jobs.push(value.position)
                 }
             }
-            console.log(jobs)
 
             setExternalJobs(jobs)
         }).catch((err) => {
@@ -59,13 +74,60 @@ export const JobLists = () => {
         })
     }
 
+    const getInternalJobs = () => {
+        GetAllJobs().then((response : any) => {
+            const approvedJobs : any = response.data
+            const modifiedJobs = approvedJobs.map((
+                approvedJob : IInternalJob
+            ) => {
+                const approvedJobDescription = approvedJob.description
+                const formattedDescription = {
+                    jobDescription: [
+                        {
+                            name: '',
+                            value: approvedJobDescription
+                        }
+                    ]
+                }
+                return {
+                    id : approvedJob.id,
+                    name: approvedJob.title,
+                    jobDescriptions: formattedDescription,
+                    employmentType: approvedJob.employment_type.join(','),
+                    department: '',
+                    keywords: '',
+                    occupation: '',
+                    occupationCategory : '',
+                    office : '',
+                    recruitingCategory : '',
+                    schedule : '',
+                    seniority : '',
+                    subcompany : '',
+                    yearsOfExperience : '',
+
+                }
+            })
+            setInternalJobs(modifiedJobs)
+
+        }).catch((e) => {
+            console.log(e)
+        })
+    }
+
     useEffect(() => {
         getExternalJobs()
     }, [])
 
+    useEffect(() => {
+        getInternalJobs()
+    }, [])
+
     return (
         <div>
-          {externalJobs.map((item, index) => (
+          {[
+            ...externalJobs,
+            ...internalJobs
+          ].map((item, index) => (
             <Accordion key={index}>
               <AccordionSummary
                 expandIcon={<ArrowDownwardIcon />} // You can conditionally render ArrowDownwardIcon or ArrowDropDownIcon based on your logic
@@ -87,6 +149,8 @@ export const JobLists = () => {
                   variant="contained"
                   color="success"
                   sx={{ mt: 3, mb: 2 }}
+                  onSubmit={() => {
+                  }}
                 >
                   View Job Details
                 </Button>

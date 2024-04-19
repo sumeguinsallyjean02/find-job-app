@@ -97,7 +97,7 @@ export const JobApproval = () => {
             <Item>
             <Stack spacing={2} direction="column">
               <Button 
-                disabled={jobStatus === 'approved'}
+                disabled={jobStatus === 'approved' || jobStatus === 'spam'}
                 variant="contained" 
                 color='success'
                 onClick={() => {
@@ -107,7 +107,10 @@ export const JobApproval = () => {
               <Button 
                 variant="contained" 
                 color='error'
-                disabled={jobStatus === 'approved'}
+                disabled={jobStatus === 'approved' || jobStatus === 'spam'}
+                onClick={() => {
+                  approveJob('spam')
+                }}
                 >Mark as Spam</Button>
             </Stack>
             </Item>

@@ -9,7 +9,6 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import { EmploymentType } from "./EmploymentType";
-import { Location } from "./Location";
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import JobDescription from "./Description";
 import { CreateJobs } from "../../Services/CreateJob";

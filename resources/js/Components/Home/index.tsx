@@ -16,6 +16,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import { Header } from '../Common/Header';
 import { Body } from '../Body';
 import { JobLists } from '../Jobs/JobLists';
+import { AddJob } from '../Jobs/AddJob';
 
 const drawerWidth = 240;
 
@@ -24,6 +25,9 @@ interface IMenuProps {
 }
 
 export const Home = () => {
+  const [isJobClicked, setIsJobsClicked] = React.useState(true)
+  const [isCreateJobClicked, setIsCreateJobClicked] = React.useState(false)
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -49,12 +53,20 @@ export const Home = () => {
         <Divider />
         <List>
             <ListItem disablePadding>
-                <ListItemButton>
-                <ListItemText primary={'Jobs'} />
+                <ListItemButton onClick={() => {
+                  setIsJobsClicked(true)
+                  setIsCreateJobClicked(false)
+
+                }}>
+                  <ListItemText primary={'Jobs'} />
                 </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={() => {
+                  setIsCreateJobClicked(true)
+                  setIsJobsClicked(false)
+
+                }}>
                 <ListItemText primary={'Create Jobs'} />
                 </ListItemButton>
             </ListItem>
@@ -66,7 +78,8 @@ export const Home = () => {
         sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
       >
         <Toolbar />
-        <JobLists></JobLists>
+        { isJobClicked && <JobLists></JobLists>}
+        { isCreateJobClicked && <AddJob></AddJob>}
       </Box>
     </Box>
   );

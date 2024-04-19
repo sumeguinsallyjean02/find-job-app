@@ -53,7 +53,6 @@ export const AddJob = () => {
 
     return (
         <div>
-            <Header></Header>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={3}>
                 <Grid item sm={12}>

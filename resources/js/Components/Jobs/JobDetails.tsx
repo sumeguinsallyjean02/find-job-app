@@ -57,10 +57,7 @@ export const JobDetails = (
         })
     }
 
-    const getInternalJob = (
-      id : number 
-
-    ) => {
+    const getInternalJob = () => {
         GetJobDetails(jobId).then((response : any) => {
           const formattedDescription = {
             jobDescription: [
@@ -106,8 +103,40 @@ export const JobDetails = (
           setFoundJob(foundExternalJob[0])
         }
         console.log(foundExternalJob)
-      } else if(jobType === 'internal' && internalJob !== undefined) {
-        setFoundJob(internalJob)
+      } else if(jobType === 'internal') {
+        GetJobDetails(jobId).then((x : any) => {
+          const response = x.data
+          const formattedDescription = {
+            jobDescription: [
+                {
+                    name: '',
+                    value: response.description
+                }
+            ]
+        }
+        const modifiedJob : IExternalJobs = {
+            id : response.id,
+            name: response.title,
+            jobDescriptions: formattedDescription,
+            employmentType: response.employment_type.join(','),
+            department: '',
+            keywords: '',
+            occupation: '',
+            occupationCategory : '',
+            office : response.location,
+            recruitingCategory : '',
+            schedule : '',
+            seniority : '',
+            subcompany : '',
+            yearsOfExperience : '',
+            jobType: 'internal'
+
+        }
+          setFoundJob(modifiedJob)
+
+        }).catch((e) => {
+            console.log(e)
+        })
       }
 
     }, [
@@ -127,7 +156,7 @@ export const JobDetails = (
               <div className='approval-job-tiltle' style={{
                 height: '150px'
               }}>
-                <Typography component="h1" variant="h3">
+                <Typography component="h1" variant="h4">
                     <div className='actual-title' style={{
                       position: 'absolute',
                       marginTop: '58px'

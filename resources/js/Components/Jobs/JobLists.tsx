@@ -59,7 +59,6 @@ export const JobLists = () => {
     const [selectedJobId, setSelectedJobId] = useState(0)
     const [searchValue, setSearchValue] = useState('')
     const token = useSelector((state : any) => state.users.token )
-    console.log(token)
 
     const getExternalJobs = () => {
         fetch('https://mrge-group-gmbh.jobs.personio.de/xml')

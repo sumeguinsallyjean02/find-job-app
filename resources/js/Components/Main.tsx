@@ -6,8 +6,9 @@ import {
 } from "react-router-dom";
 import { Login } from "./Login";
 import { Home } from "./Home";
-import { JobDetails } from "./Jobs/JobDetails";
+import { JobApproval } from "./Jobs/JobApproval";
 import { AddJob } from "./Jobs/AddJob";
+import { JobDetails } from "./Jobs/JobDetails";
 
 export default function Main() {
     return (
@@ -16,8 +17,9 @@ export default function Main() {
                 <Routes>
                     <Route path="/home" Component={Home}></Route>
                     <Route path="/job/create" Component={AddJob}></Route>
-                    <Route path="job/:id/confirm" Component={JobDetails}></Route>
+                    <Route path="job/:id/confirm" Component={JobApproval}></Route>
                     <Route path="/login" Component={Login}></Route>
+                    <Route path="/job/detail/:id" Component={JobDetails}></Route>
                 </Routes>
             </div>
         </Router>

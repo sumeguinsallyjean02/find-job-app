@@ -7,8 +7,9 @@ import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Button } from "@mui/material";
-import { GetAllJobs, GetJobDetails, Jobs } from "../../Services/GetAllJobs";
+import { GetAllJobs} from "../../Services/GetAllJobs";
 import JobDescription from "./Description";
+import { Link } from "react-router-dom";
 
 
 interface IJobDescription {
@@ -33,7 +34,8 @@ interface IExternalJobs {
     schedule : string
     seniority : string
     subcompany : string
-    yearsOfExperience : string
+    yearsOfExperience : string,
+    jobType: string
 
 }
 
@@ -52,6 +54,7 @@ interface IInternalJob {
 export const JobLists = () => {
     const [externalJobs, setExternalJobs] = useState<IExternalJobs[]>([])
     const [internalJobs, setInternalJobs] = useState<IExternalJobs[]>([])
+    const [selectedJobId, setSelectedJobId] = useState(0)
 
 
     const getExternalJobs = () => {
@@ -64,7 +67,10 @@ export const JobLists = () => {
 
             for (const [, value] of parsed) {
                 if (typeof value === 'object' && value !== null) {
-                    jobs.push(value.position)
+                    jobs.push({
+                        ...value.position,
+                        jobType: 'external'
+                    })
                 }
             }
 
@@ -94,16 +100,17 @@ export const JobLists = () => {
                     name: approvedJob.title,
                     jobDescriptions: formattedDescription,
                     employmentType: approvedJob.employment_type.join(','),
+                    office : approvedJob.location,
                     department: '',
                     keywords: '',
                     occupation: '',
                     occupationCategory : '',
-                    office : '',
                     recruitingCategory : '',
                     schedule : '',
                     seniority : '',
                     subcompany : '',
                     yearsOfExperience : '',
+                    jobType: 'internal'
 
                 }
             })
@@ -149,7 +156,8 @@ export const JobLists = () => {
                   variant="contained"
                   color="success"
                   sx={{ mt: 3, mb: 2 }}
-                  onSubmit={() => {
+                  onClick={() => {
+                    window.open(`/#/job/detail/${item.id}?type=${item.jobType}`, "_blank")
                   }}
                 >
                   View Job Details

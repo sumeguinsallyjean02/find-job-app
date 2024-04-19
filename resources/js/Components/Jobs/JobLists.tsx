@@ -56,7 +56,7 @@ export const JobLists = () => {
     const [externalJobs, setExternalJobs] = useState<IExternalJobs[]>([])
     const [internalJobs, setInternalJobs] = useState<IExternalJobs[]>([])
     const [selectedJobId, setSelectedJobId] = useState(0)
-    const [searchValue, setSearchValue] = useState<>('')
+    const [searchValue, setSearchValue] = useState('')
 
     const getExternalJobs = () => {
         fetch('https://mrge-group-gmbh.jobs.personio.de/xml')

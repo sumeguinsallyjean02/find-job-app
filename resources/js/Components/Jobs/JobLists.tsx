@@ -100,7 +100,11 @@ export const JobLists = () => {
                     id : approvedJob.id,
                     name: approvedJob.title,
                     jobDescriptions: formattedDescription,
-                    employmentType: approvedJob.employment_type.join(','),
+                    employmentType: (
+                        approvedJob &&
+                        approvedJob.employment_type &&
+                        approvedJob.employment_type.length > 0
+                    ) ? approvedJob.employment_type.join(',') : '',
                     office : approvedJob.location,
                     department: '',
                     keywords: '',
@@ -155,8 +159,11 @@ export const JobLists = () => {
             if(searchValue === '' || !searchValue) {
                 return true
             }
-            const regex = new RegExp(searchValue, 'gi')
-            return job.name.match(regex)    
+            if(job && job.name) {
+ 
+                const regex = new RegExp(searchValue, 'gi')
+                return job.name.match(regex)    
+            }
         }).map((item, index) => (
             <Accordion key={index}>
               <AccordionSummary

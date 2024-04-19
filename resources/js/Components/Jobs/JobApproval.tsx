@@ -27,6 +27,7 @@ export const JobApproval = () => {
 
   const [jobTitle, setTitle] = React.useState('')
   const [jobDescription, setJobDescription] = React.useState('')
+  const [jobStatus, setJobStatus] = React.useState('')
   const token = useSelector((state : any) => state.users.token ) || localStorage.getItem('token')
 
   const approveJob = (
@@ -47,9 +48,10 @@ export const JobApproval = () => {
   React.useEffect(() => {
     GetJobDetails(jobId, token)
       .then((response : any)  => {
-        const { title, description } = response.data
+        const { title, description, status } = response.data
         setTitle(title)
         setJobDescription(description)
+        setJobStatus(status)
       }).catch((e) => {
         console.log(e)
       })
@@ -95,13 +97,18 @@ export const JobApproval = () => {
             <Item>
             <Stack spacing={2} direction="column">
               <Button 
+                disabled={jobStatus === 'approved'}
                 variant="contained" 
                 color='success'
                 onClick={() => {
                   approveJob('approved')
                 }}
                 >Approved</Button>
-              <Button variant="contained" color='error'>Mark as Spam</Button>
+              <Button 
+                variant="contained" 
+                color='error'
+                disabled={jobStatus === 'approved'}
+                >Mark as Spam</Button>
             </Stack>
             </Item>
           </Grid>
